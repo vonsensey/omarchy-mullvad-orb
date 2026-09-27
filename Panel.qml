@@ -164,6 +164,7 @@ Item {
     case "disconnecting": return "DISCONNECTING…"
     case "error": return tunnel.blocking ? "BLOCKED" : "ERROR"
     case "daemon-offline": return "DAEMON NOT RUNNING"
+    case "not-installed": return "MULLVAD NOT INSTALLED"
     case "unknown": return "CHECKING…"
     default: return tunnel.lockedDown ? "BLOCKED · LOCKDOWN" : "UNSECURED CONNECTION"
     }

@@ -57,7 +57,7 @@ BarWidget {
     BarIconButton {
       id: icon
       bar: root.bar
-      dimmed: root.tunnelState === "disconnected" && !root.alarm
+      dimmed: !root.live && !root.alarm
       tooltipText: root.tooltip()
       iconComponent: Component {
         Item {

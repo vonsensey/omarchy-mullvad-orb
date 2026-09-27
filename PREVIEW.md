@@ -19,3 +19,5 @@ Recapture: enable the plugin, run
 `omarchy-shell shell summon io.github.vonsensey.mullvad-orb '{}'`,
 `omarchy-shell shell call io.github.vonsensey.mullvad-orb focusOn "us nyc"`,
 and `grim`.
+- `docs/img/social-preview.png`: the GitHub social preview card. The mole
+  plus a crop of `preview.png`, composed with ImageMagick.

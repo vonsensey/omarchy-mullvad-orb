@@ -160,6 +160,8 @@ Flickable {
           width: parent.width
           spacing: Style.spacing.md
           topPadding: Style.spacing.sm
+          // Nothing to press until Mullvad is installed and its daemon is up.
+          visible: svc !== null && svc.installed && svc.daemonUp
 
           Button {
             readonly property string where: Model.describeLocation(world, p.selectionLoc, prefs.customLists)

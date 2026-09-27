@@ -344,7 +344,10 @@ Item {
     onExited: function(exitCode) {
       root.checked = true
       root.installed = exitCode === 0
-      if (!root.installed) return
+      if (!root.installed) {
+        root.tunnel = Model.tunnelView({ state: "not-installed" })
+        return
+      }
       root.refreshStatus()
       listener.running = true
       root.refreshAccount()
