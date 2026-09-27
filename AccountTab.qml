@@ -103,26 +103,21 @@ Flickable {
       }
 
       PanelSeparator { width: parent.width; foreground: p.fg }
-      PanelSectionHeader { text: "REDEEM VOUCHER"; foreground: p.fg; fontFamily: p.font }
-      Row {
+      PanelSectionHeader { text: "VOUCHERS"; foreground: p.fg; fontFamily: p.font }
+      Text {
         width: parent.width
-        spacing: Style.spacing.md
-        TextField {
-          id: voucher
-          width: parent.width - redeemButton.width - Style.spacing.md
-          placeholderText: "XXXX-XXXX-XXXX-XXXX"
-          foreground: p.fg
-          font.family: p.font
-          onAccepted: redeemButton.clicked()
-        }
-        Button {
-          id: redeemButton
-          text: "Redeem"
-          bordered: true
-          foreground: p.fg; fontFamily: p.font
-          enabled: voucher.text.trim().length >= 16
-          onClicked: { svc.redeem(voucher.text); voucher.text = "" }
-        }
+        wrapMode: Text.Wrap
+        text: "Redeem vouchers on your mullvad.net account page. The plugin does not redeem them itself: the mullvad CLI only takes a voucher as a command-line argument, which other programs on this computer can read."
+        color: p.dim
+        font.family: p.font
+        font.pixelSize: Style.font.caption
+      }
+      Button {
+        text: "Open mullvad.net"
+        iconText: "\uf08e"
+        bordered: true
+        foreground: p.fg; fontFamily: p.font
+        onClicked: svc.openAccountPage()
       }
 
       PanelSeparator { width: parent.width; foreground: p.fg }

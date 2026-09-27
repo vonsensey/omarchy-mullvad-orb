@@ -27,6 +27,16 @@ else
   echo "skip: omarchy not installed (manifest validation)"
 fi
 
+# Secrets never go on a command line (readable by any local process): the
+# account number reaches login and wl-copy on stdin, vouchers not at all.
+if grep -nE 'account\.number|voucher' Service.qml | grep -E 'command|execDetached|\["' ; then
+  echo "FAIL: a secret is passed as a command argument"; fail=1
+elif grep -nE '"redeem"' *.qml; then
+  echo "FAIL: voucher redeem puts the code in argv"; fail=1
+else
+  echo "secrets: none passed as command arguments"
+fi
+
 jq -e 'length > 200 and all(.[]; (.r | length) > 0)' assets/countries.json >/dev/null \
   && echo "assets: countries.json ok" || { echo "FAIL: assets/countries.json"; fail=1; }
 

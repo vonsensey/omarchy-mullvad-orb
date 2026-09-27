@@ -198,12 +198,13 @@ Item {
   }
   function logout() { act(["account", "logout"], "Logged out", refreshAccount) }
   function createAccount() { act(["account", "create"], "New account created", refreshAccount) }
-  function redeem(voucher) { act(["account", "redeem", String(voucher || "").trim()], "Voucher redeemed", refreshAccount) }
   function revokeDevice(id) { act(["account", "revoke-device", id], "Device revoked", refreshDevices) }
+  // The account number is the login credential: it goes to wl-copy on stdin
+  // (never argv, which any local process can read) and is marked sensitive
+  // so Omarchy's clipboard history does not store it.
   function copyAccount() {
-    if (!account.number) return
-    Quickshell.execDetached(["wl-copy", account.number])
-    notice("Account number copied")
+    if (!account.number || clipProc.running) return
+    clipProc.running = true
   }
   function openAccountPage() { Quickshell.execDetached(["omarchy-launch-browser", "https://mullvad.net/account"]) }
 
@@ -319,6 +320,21 @@ Item {
       if (job && job.done) job.done(exitCode === 0, String(runnerOut.text || ""), String(runnerErr.text || ""))
       settingsFile.reload()
       Qt.callLater(root._next)
+    }
+  }
+
+  Process {
+    id: clipProc
+    command: ["wl-copy", "--sensitive"]
+    stdinEnabled: true
+    onStarted: {
+      write(root.account.number)
+      stdinEnabled = false
+    }
+    onExited: function(exitCode) {
+      stdinEnabled = true
+      if (exitCode === 0) root.notice("Account number copied")
+      else root.fail("Could not copy the account number")
     }
   }
 

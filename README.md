@@ -48,8 +48,8 @@ IP override import/export/clear, app version and beta program, server list
 update, reset settings and factory reset (both confirmed).
 
 **Account tab:** account number (masked until you reveal it; copy), paid-until
-date and days left, this device, all devices with revoke, voucher redeem, add
-time (opens mullvad.net), log out, and log in or create an account when logged
+date and days left, this device, all devices with revoke, add time and
+vouchers (both open your mullvad.net account page), log out, and log in or create an account when logged
 out.
 
 **Bar widget:** a small mole (*mullvad* is Swedish for mole). Its nose lights up
@@ -161,12 +161,15 @@ on the globe, the days left and the account number.
   by the daemon.
 - **Runs:** `mullvad status -j listen`, one small watcher tied to the shell's
   lifetime. It also runs `mullvad` commands when you act, `ps` to name
-  split-tunnel apps, `notify-send`, `wl-copy` when you copy the account
-  number, and `omarchy-launch-browser` for *Add time*.
-- **Your account number** stays in memory, is masked on screen, and is passed
-  to `mullvad account login` on stdin, never on the command line. (The
-  logged-out flows - login, create account - were not live-tested: the test
-  machine stayed logged in.)
+  split-tunnel apps, `notify-send`, `wl-copy --sensitive` when you copy the
+  account number, and `omarchy-launch-browser` for *Add time*.
+- **Your account number** stays in memory and is masked on screen. It is
+  never put on a command line, where other local programs could read it:
+  login and copy both hand it over on stdin, and the copy is marked sensitive
+  so Omarchy's clipboard history skips it. Vouchers are redeemed on
+  mullvad.net, because the `mullvad` CLI only accepts them as an argument.
+  (Login and create account were not live-tested: the test machine stayed
+  logged in.)
 - **No network access of its own.** The daemon talks to Mullvad; the plugin
   only talks to the daemon.
 - **Not included on purpose:** `mullvad debug`, log level and log streaming,
