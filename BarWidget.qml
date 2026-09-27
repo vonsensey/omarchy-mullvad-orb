@@ -85,7 +85,7 @@ BarWidget {
 
   function tooltip() {
     if (!svc || !svc.checked) return "Mullvad"
-    if (!svc.installed) return "Mullvad is not installed (sudo pacman -S mullvad-vpn)"
+    if (!svc.installed) return "Mullvad is not installed (omarchy pkg add mullvad-vpn)"
     var t = tunnel
     var lines = []
     if (t.state === "connected") {

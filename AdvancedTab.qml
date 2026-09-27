@@ -365,7 +365,7 @@ Flickable {
         var v = svc ? svc.version : {}
         if (!v.current) return "Version unknown"
         var line = "Mullvad " + v.current + (v.supported ? "" : " (no longer supported)")
-        if (v.upgrade && v.upgrade !== v.current && v.upgrade !== "none") line += "  ·  " + v.upgrade + " available: sudo pacman -Syu"
+        if (v.upgrade && v.upgrade !== v.current && v.upgrade !== "none") line += "  ·  " + v.upgrade + " available: run omarchy update"
         return line
       }
       color: svc && svc.version.supported === false ? p.urgent : p.fg

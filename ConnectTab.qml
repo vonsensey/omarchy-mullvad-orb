@@ -92,8 +92,8 @@ Flickable {
             if (root.live && root.exitCity) return root.exitCity.name + ", " + root.exitCity.countryName
             if (root.live) return tunnel.location && tunnel.location.city ? tunnel.location.city + ", " + tunnel.location.country : "Finding a server…"
             if (tunnel.state === "error") return tunnel.error || "Tunnel error"
-            if (tunnel.state === "daemon-offline") return "Start it: sudo systemctl enable --now mullvad-daemon"
-            if (svc && !svc.installed && svc.checked) return "Install: sudo pacman -S mullvad-vpn"
+            if (tunnel.state === "daemon-offline") return "Start it: systemctl enable --now mullvad-daemon"
+            if (svc && !svc.installed && svc.checked) return "Install: omarchy pkg add mullvad-vpn"
             return "Not connected"
           }
           wrapMode: Text.Wrap

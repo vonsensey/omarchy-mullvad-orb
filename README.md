@@ -79,8 +79,8 @@ they also fire on connects and plain disconnects.
 - The Mullvad app and daemon, logged in or ready to log in:
 
   ```bash
-  sudo pacman -S mullvad-vpn
-  sudo systemctl enable --now mullvad-daemon
+  omarchy pkg add mullvad-vpn
+  systemctl enable --now mullvad-daemon   # asks for your password
   ```
 
   Tested against mullvad-vpn 2026.4.
