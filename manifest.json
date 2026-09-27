@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "io.github.vonsensey.mullvad-orb",
+  "name": "Mullvad Orb",
+  "version": "1.0.0",
+  "author": "vonsensey",
+  "license": "MIT",
+  "description": "Mullvad VPN on a spinning globe. Pick a server by clicking a dot or searching country, city and server; the orb flies there and draws your tunnel. Every Mullvad setting included: multihop, DAITA, quantum-resistant tunnels, lockdown, DNS content blockers, anti-censorship, custom lists, split tunneling, API access, devices and account. Themed from your Omarchy colors. Unofficial; not affiliated with Mullvad VPN AB.",
+  "homepage": "https://github.com/vonsensey/omarchy-mullvad-orb",
+  "repository": "https://github.com/vonsensey/omarchy-mullvad-orb",
+  "keywords": ["mullvad", "vpn", "wireguard", "globe", "privacy"],
+  "kinds": ["service", "bar-widget", "panel"],
+  "keepLoaded": true,
+  "entryPoints": {
+    "service": "Service.qml",
+    "barWidget": "BarWidget.qml",
+    "panel": "Panel.qml"
+  },
+  "barWidget": {
+    "displayName": "Mullvad Orb",
+    "description": "Tunnel state as a lock. Click opens the globe, right click connects or disconnects, middle click switches to a new server.",
+    "category": "Network",
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "defaults": {
+      "barLabel": "Country",
+      "notifications": "Drops only",
+      "expiryWarningDays": 7,
+      "privacyMode": "Off"
+    },
+    "schema": [
+      { "key": "barLabel", "type": "enum", "label": "Label next to the lock", "options": ["Country", "City", "Server", "None"], "defaultValue": "Country" },
+      { "key": "notifications", "type": "enum", "label": "Notifications", "options": ["Drops only", "Drops and connects", "Off"], "defaultValue": "Drops only", "description": "Drops, errors and account expiry are always the important ones." },
+      { "key": "expiryWarningDays", "type": "integer", "label": "Warn when the account has fewer days left than", "min": 0, "max": 60, "step": 1, "defaultValue": 7 },
+      { "key": "privacyMode", "type": "enum", "label": "Privacy mode (screen sharing)", "options": ["Off", "On"], "defaultValue": "Off", "description": "Hides IP addresses and your own location on the globe." }
+    ]
+  }
+}

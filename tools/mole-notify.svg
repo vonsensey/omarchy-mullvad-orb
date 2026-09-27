@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="128" height="128">
+  <!-- Notification icon: the Mullvad Orb mole in fixed colours that read on light and dark notification cards. -->
+  <g stroke="#f2ede6" stroke-width="0.9" stroke-linejoin="round" paint-order="stroke">
+    <path fill="#6f625a" fill-rule="evenodd" d="M5 17.4 C4.6 11 8 6 12 6 C16 6 19.4 11 19 17.4 L14.3 17.4 L12 20 L9.7 17.4 Z"/>
+    <path fill="#6f625a" d="M1 18.4 C1.4 15.4 4.3 14.4 6.9 15.8 L7.6 18.4 L6.6 20.3 L6 18.8 L5 20.5 L4.4 18.8 L3.3 20.3 L2.9 18.8 L1.7 19.9 Z M23 18.4 C22.6 15.4 19.7 14.4 17.1 15.8 L16.4 18.4 L17.4 20.3 L18 18.8 L19 20.5 L19.6 18.8 L20.7 20.3 L21.1 18.8 L22.3 19.9 Z"/>
+  </g>
+  <path fill="#f2ede6" d="M9.75 11.3 A0.85 0.85 0 1 0 8.05 11.3 A0.85 0.85 0 1 0 9.75 11.3 Z M15.95 11.3 A0.85 0.85 0 1 0 14.25 11.3 A0.85 0.85 0 1 0 15.95 11.3 Z"/>
+  <path fill="#f08f76" stroke="#f2ede6" stroke-width="0.6" d="M13.75 19.5 A1.75 1.75 0 1 0 10.25 19.5 A1.75 1.75 0 1 0 13.75 19.5 Z"/>
+</svg>
