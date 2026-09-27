@@ -261,6 +261,28 @@ function locationArgs(sel) {
   return args
 }
 
+// Does a picker selection ({country, city?, hostname?} or null) say the same
+// as the daemon's constraint? An empty picker never overrides a custom list
+// or a custom relay - it cannot express them.
+function sameLocation(constraint, sel) {
+  var c = constraint || { kind: "any" }
+  if (!sel || !sel.country) return c.kind === "any" || c.kind === "list"
+  if (c.kind !== "country" && c.kind !== "city" && c.kind !== "host") return false
+  return (c.country || "") === sel.country && (c.city || "") === (sel.city || "")
+    && (c.hostname || "") === (sel.city && sel.hostname ? sel.hostname : "")
+}
+
+// The `mullvad relay set ...` commands needed before connecting to a picker
+// selection - none when nothing changed, so a plain Connect never rewrites
+// the user's constraints.
+function connectPlan(view, sel, entrySel) {
+  var v = view || {}
+  var plan = []
+  if (!sameLocation(v.exit, sel)) plan.push(["relay", "set", "location"].concat(locationArgs(sel)))
+  if (v.multihop && !sameLocation(v.entry, entrySel)) plan.push(["relay", "set", "entry", "location"].concat(locationArgs(entrySel)))
+  return plan
+}
+
 function describeLocation(world, loc, lists) {
   if (!loc || loc.kind === "any") return "Anywhere"
   if (loc.kind === "list") {

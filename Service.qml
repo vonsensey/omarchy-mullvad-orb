@@ -104,10 +104,10 @@ Item {
   function reconnect() { act(["reconnect"], "Reconnecting to a new server") }
   function toggle() { tunnel.state === "disconnected" ? connect() : disconnect() }
 
-  // sel: {country, city?, hostname?}; connects (or re-routes a live tunnel).
-  function connectTo(sel, entrySel) {
-    act(["relay", "set", "location"].concat(Model.locationArgs(sel)))
-    if (entrySel) act(["relay", "set", "entry", "location"].concat(Model.locationArgs(entrySel)))
+  // Apply only the relay changes in `plan` (Model.connectPlan), then connect
+  // - or re-route a live tunnel, which the daemon does on its own.
+  function connectWith(plan) {
+    for (var i = 0; i < plan.length; i++) act(plan[i])
     connect()
   }
   function connectToList(name) {
@@ -407,9 +407,9 @@ Item {
     }
   }
 
-  // Scriptable from keybinds: `omarchy-shell mullvad toggle` etc.
+  // Scriptable from keybinds: `omarchy-shell mullvad-orb toggle` etc.
   IpcHandler {
-    target: "mullvad"
+    target: "mullvad-orb"
     function connect(): void { root.connect() }
     function disconnect(): void { root.disconnect() }
     function toggle(): void { root.toggle() }

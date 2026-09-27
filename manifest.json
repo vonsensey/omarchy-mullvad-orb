@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "author": "vonsensey",
   "license": "MIT",
-  "description": "Mullvad VPN on a spinning globe. Pick a server by clicking a dot or searching country, city and server; the orb flies there and draws your tunnel. Every Mullvad setting included: multihop, DAITA, quantum-resistant tunnels, lockdown, DNS content blockers, anti-censorship, custom lists, split tunneling, API access, devices and account. Themed from your Omarchy colors. Unofficial; not affiliated with Mullvad VPN AB.",
+  "description": "Mullvad VPN on a spinning globe. Pick a server by clicking a dot or searching country, city and server; the orb flies there and draws your tunnel. Nearly every Mullvad setting in one panel: multihop, DAITA, quantum-resistant tunnels, lockdown, DNS content blockers, anti-censorship, custom lists, split tunneling, API access, devices and account. Themed from your Omarchy colors. Unofficial; not affiliated with Mullvad VPN AB.",
   "homepage": "https://github.com/vonsensey/omarchy-mullvad-orb",
   "repository": "https://github.com/vonsensey/omarchy-mullvad-orb",
   "keywords": ["mullvad", "vpn", "wireguard", "globe", "privacy"],

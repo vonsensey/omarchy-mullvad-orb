@@ -136,6 +136,30 @@ test("location args and descriptions", () => {
   assert.equal(M.describeLocation(w, { kind: "any" }), "Anywhere")
 })
 
+test("connect plan only touches what the picker changed", () => {
+  const country = { kind: "country", country: "se" }
+  const list = { kind: "list", listId: "L1" }
+  const base = { exit: country, entry: country, multihop: true }
+  // Unchanged: plain connect, no relay commands (no constraint rewrites).
+  assert.deepEqual(plain(M.connectPlan(base, { country: "se", city: "", hostname: "" }, { country: "se", city: "" })), [])
+  // A custom list / custom relay constraint survives an empty picker.
+  assert.deepEqual(plain(M.connectPlan({ exit: list, entry: list, multihop: true }, null, null)), [])
+  assert.deepEqual(plain(M.connectPlan({ exit: { kind: "any" }, entry: { kind: "any" } }, null, null)), [])
+  // Exit-only change leaves the entry alone.
+  assert.deepEqual(plain(M.connectPlan(base, { country: "us", city: "nyc", hostname: "" }, { country: "se" })),
+    [["relay", "set", "location", "us", "nyc"]])
+  // Entry changes only matter with multihop on.
+  assert.deepEqual(plain(M.connectPlan(base, { country: "se" }, { country: "de", city: "ber" })),
+    [["relay", "set", "entry", "location", "de", "ber"]])
+  assert.deepEqual(plain(M.connectPlan({ exit: country, entry: country, multihop: false }, { country: "se" }, { country: "de" })), [])
+  // Picking "Any country" over a concrete constraint means any.
+  assert.deepEqual(plain(M.connectPlan(base, null, { country: "se" })), [["relay", "set", "location", "any"]])
+  // Host constraints compare the hostname too.
+  const host = { kind: "host", country: "se", city: "got", hostname: "se-got-wg-001" }
+  assert.deepEqual(plain(M.connectPlan({ exit: host }, { country: "se", city: "got", hostname: "se-got-wg-001" })), [])
+  assert.equal(M.connectPlan({ exit: host }, { country: "se", city: "got", hostname: "" }).length, 1)
+})
+
 test("tunnelView covers every state", () => {
   const off = M.tunnelView({ state: "disconnected", details: { location: { ipv4: "192.0.2.1", country: "Nowhere", latitude: 10, longitude: 20, mullvad_exit_ip: false }, locked_down: false } })
   assert.equal(off.secured, false); assert.equal(off.blocking, false); assert.equal(off.location.lat, 10)

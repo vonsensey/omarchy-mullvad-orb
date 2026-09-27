@@ -71,20 +71,12 @@ Item {
     else if (selCountry) globe.focusCountry(selCountry)
   }
 
-  // Does the pending selection differ from what the daemon will use?
-  readonly property bool selectionPending: {
-    var ex = prefs.exit
-    var same = (ex.country || "") === selCountry && (ex.city || "") === selCity && (ex.hostname || "") === selHost
-    if (prefs.multihop) {
-      var en = prefs.entry
-      same = same && (en.country || "") === entryCountry && (en.city || "") === entryCity
-    }
-    return !same
-  }
+  // Relay commands a Connect would send; empty when nothing was changed.
+  readonly property var plan: Model.connectPlan(prefs, selection, entrySelection)
+  readonly property bool selectionPending: plan.length > 0
 
   function connectSelection() {
-    if (!svc) return
-    svc.connectTo(selection, prefs.multihop ? entrySelection : null)
+    if (svc) svc.connectWith(plan)
   }
 
   function open(payloadJson) {

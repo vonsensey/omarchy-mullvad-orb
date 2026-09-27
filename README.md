@@ -97,7 +97,7 @@ Optional keybindings in `~/.config/hypr/bindings.lua`:
 
 ```lua
 o.bind("SUPER + ALT + V", "Mullvad Orb", "omarchy-shell shell toggle io.github.vonsensey.mullvad-orb")
-o.bind("SUPER + ALT + SHIFT + V", "Mullvad connect/disconnect", "omarchy-shell mullvad toggle")
+o.bind("SUPER + ALT + SHIFT + V", "Mullvad connect/disconnect", "omarchy-shell mullvad-orb toggle")
 ```
 
 ## Using it
@@ -122,7 +122,7 @@ o.bind("SUPER + ALT + SHIFT + V", "Mullvad connect/disconnect", "omarchy-shell m
 Scriptable over IPC:
 
 ```bash
-omarchy-shell mullvad connect | disconnect | toggle | reconnect | status
+omarchy-shell mullvad-orb connect | disconnect | toggle | reconnect | status
 omarchy-shell shell summon io.github.vonsensey.mullvad-orb '{"tab":"settings"}'
 omarchy-shell shell call io.github.vonsensey.mullvad-orb focusOn "se got"      # select + fly
 ```
@@ -149,6 +149,9 @@ on the globe, the days left and the account number.
   against the daemon; the Connect tab says so when it applies.)
 - **Settings changed elsewhere** (the Mullvad app, the CLI) show up in the orb
   immediately, because the daemon's own settings file is watched.
+- **Reconnects started outside the orb** (the Mullvad app, `mullvad reconnect`
+  in a terminal, a key rotation) look like a drop to the plugin and post a
+  "reconnecting" notice.
 - **After updating the plugin,** restart the shell (`omarchy-restart-shell`).
   The plugin is kept loaded, so its code only reloads on a restart.
 
@@ -164,7 +167,9 @@ on the globe, the days left and the account number.
   split-tunnel apps, `notify-send`, `wl-copy` when you copy the account
   number, and `omarchy-launch-browser` for *Add time*.
 - **Your account number** stays in memory, is masked on screen, and is passed
-  to `mullvad account login` on stdin, never on the command line.
+  to `mullvad account login` on stdin, never on the command line. (The
+  logged-out flows - login, create account - were not live-tested: the test
+  machine stayed logged in.)
 - **No network access of its own.** The daemon talks to Mullvad; the plugin
   only talks to the daemon.
 - **Not included on purpose:** `mullvad debug`, log level and log streaming,

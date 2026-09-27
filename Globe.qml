@@ -445,10 +445,16 @@ Item {
     return Model.unproject((x - width / 2) / r, -(y - height / 2) / r, centreLat, centreLon)
   }
 
+  // The city under the first tap of a double-click: by the second tap the
+  // camera may already be flying, so the second hit-test can't be trusted.
+  property var tappedCity: null
+
   function pick(x, y) {
     var s = serverAt(x, y)
+    tappedCity = null
     if (s) { serverClicked(s.city.country, s.city.city, s.relay.hostname); return }
     var c = cityAt(x, y)
+    tappedCity = c
     if (c) { cityClicked(c.country, c.city); return }
     var g = geoAt(x, y)
     if (!g) return
@@ -619,9 +625,12 @@ Item {
   TapHandler {
     acceptedButtons: Qt.LeftButton
     gesturePolicy: TapHandler.DragThreshold
-    onTapped: function(point) { root.pick(point.position.x, point.position.y) }
+    onTapped: function(point) {
+      if (tapCount > 1) return
+      root.pick(point.position.x, point.position.y)
+    }
     onDoubleTapped: function(point) {
-      var c = root.cityAt(point.position.x, point.position.y)
+      var c = root.tappedCity
       if (c) root.cityActivated(c.country, c.city)
     }
   }
