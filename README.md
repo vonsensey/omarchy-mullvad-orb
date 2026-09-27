@@ -76,14 +76,11 @@ they also fire on connects and plain disconnects.
 ## Requirements
 
 - Omarchy 4.0.4 or newer (built and tested on 4.0.4, Quickshell 0.3.1, Qt 6.11).
-- The Mullvad app and daemon, logged in or ready to log in:
-
-  ```bash
-  omarchy pkg add mullvad-vpn
-  systemctl enable --now mullvad-daemon   # asks for your password
-  ```
-
-  Tested against mullvad-vpn 2026.4.
+- The official Mullvad app and daemon, logged in or ready to log in: the
+  `mullvad-vpn` package from Arch's `extra` repository, with its
+  `mullvad-daemon` service enabled. Mullvad's own
+  [Linux install guide](https://mullvad.net/en/help/install-mullvad-app-linux)
+  covers both steps. Tested against mullvad-vpn 2026.4.
 
 ## Install
 
