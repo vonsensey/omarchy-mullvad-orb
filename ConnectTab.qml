@@ -91,8 +91,9 @@ Flickable {
           text: {
             if (root.live && root.exitCity) return root.exitCity.name + ", " + root.exitCity.countryName
             if (root.live) return tunnel.location && tunnel.location.city ? tunnel.location.city + ", " + tunnel.location.country : "Finding a server…"
-            if (tunnel.state === "error") return tunnel.error || "Tunnel error"
             if (tunnel.state === "daemon-offline") return "The mullvad-daemon service is not running"
+            if (svc && svc.account.revoked) return "This device was removed from your Mullvad account. Log in again on the Account tab"
+            if (tunnel.state === "error") return tunnel.error || "Tunnel error"
             if (svc && !svc.installed && svc.checked) return "Install the mullvad-vpn package to use the orb"
             return "Not connected"
           }

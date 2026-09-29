@@ -205,6 +205,19 @@ test("a failed account read is not a logout", () => {
   // Successful reads are authoritative.
   assert.equal(M.nextAccount(known, true, "Not logged in on any account\n").loggedIn, false)
   assert.equal(M.nextAccount(loggedOut, true, "Mullvad account:    1234567890123456\nExpires at:         2027-05-01 07:03:52 +02:00\n").expiry, "2027-05-01 07:03:52 +02:00")
+  // Before the first successful read (daemon down at startup) nothing is known.
+  const unknown = { loggedIn: false, unknown: true }
+  assert.equal(M.nextAccount(unknown, false, ""), unknown)
+})
+
+test("a revoked device is logged out", () => {
+  // mullvad-cli prints the account number from history after the message.
+  const revoked = M.parseAccount("The current device has been revoked\nMullvad account: 1234567890123456\n")
+  assert.equal(revoked.loggedIn, false); assert.equal(revoked.revoked, true)
+  assert.equal(revoked.number, "1234567890123456")
+  assert.equal(M.parseAccount("The current device has been revoked\n").number, "")
+  // Logged in again, then the read fails before the expiry: logged in, not stuck on revoked.
+  assert.equal(M.nextAccount(revoked, false, "Mullvad account:    1234567890123456\n").loggedIn, true)
 })
 
 test("daysLeft handles offsets and garbage", () => {

@@ -56,7 +56,8 @@ update, reset settings and factory reset (both confirmed).
 **Account tab:** account number (masked until you reveal it; copy), paid-until
 date and days left, this device, all devices with revoke, add time and
 vouchers (both open your mullvad.net account page), log out, and log in or
-create an account when logged out.
+create an account when logged out. If this device was removed from the
+account, the orb says so and offers *Log in again* with the same account.
 
 **Bar widget:** a small mole (*mullvad* is Swedish for mole). Its nose lights up
 in your accent color while the tunnel is up, and a country code, city or server
@@ -67,7 +68,8 @@ account's last day.
 ![The bar mole: connected in Tokyo Night, connected in Ristretto, disconnected](docs/img/bar.png)
 
 **Notifications** carry the same mole and fire on real drops (the tunnel falling
-into reconnect), tunnel errors, and account expiry. With *Drops and connects*,
+into reconnect), tunnel errors, account expiry, and this device being removed
+from your account. With *Drops and connects*,
 they also fire on connects and plain disconnects.
 
 ![A Mullvad Orb notification](docs/img/notification.png)
@@ -201,8 +203,8 @@ account is about to expire).
   login and copy both hand it over on stdin, and the copy is marked sensitive
   so Omarchy's clipboard history skips it. Vouchers are redeemed on
   mullvad.net, because the `mullvad` CLI only accepts them as an argument.
-  (Login and create account were not live-tested: the test machine stayed
-  logged in.)
+  (Login, *Log in again* and create account were not live-tested: the test
+  machine stayed logged in.)
 - **No network access of its own.** The daemon talks to Mullvad; the plugin
   only talks to the daemon. The only URL it opens is your mullvad.net account
   page, in your browser, when you click for it.

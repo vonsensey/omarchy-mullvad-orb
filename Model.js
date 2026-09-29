@@ -369,12 +369,16 @@ function field(text, label) {
 }
 
 // `mullvad account get -v`. The number stays in memory only; the UI masks it.
+// A revoked device also prints the number (from account history) but is
+// logged out; the number only lets the UI offer to log in again.
 function parseAccount(text) {
   var t = String(text || "")
+  var number = field(t, "Mullvad account").replace(/\s+/g, "")
+  if (/device has been revoked/i.test(t)) return { loggedIn: false, revoked: true, number: number }
   if (!/Mullvad account\s*:/i.test(t)) return { loggedIn: false }
   return {
     loggedIn: true,
-    number: field(t, "Mullvad account").replace(/\s+/g, ""),
+    number: number,
     expiry: field(t, "Expires at"),
     deviceName: field(t, "Device name"),
     deviceCreated: field(t, "Device created")
@@ -387,7 +391,8 @@ function parseAccount(text) {
 // are logged in (the CLI prints it before fetching the expiry).
 function nextAccount(prev, ok, text) {
   var next = parseAccount(text)
-  return ok || (next.loggedIn && next.number !== prev.number) ? next : prev
+  var same = prev.loggedIn && next.number === prev.number
+  return ok || (next.loggedIn && !same) ? next : prev
 }
 
 // `mullvad account list-devices -v` -> [{name, id, created}]

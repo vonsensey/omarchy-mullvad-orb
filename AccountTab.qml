@@ -161,13 +161,45 @@ Flickable {
       }
     }
 
+    // ---------------------------------------- not read yet
+    Text {
+      width: parent.width
+      visible: svc && svc.installed && root.account.unknown === true
+      wrapMode: Text.Wrap
+      text: svc && svc.daemonUp ? "Checking your account…" : "Your account shows here once the Mullvad daemon is running."
+      color: p.dim
+      font.family: p.font
+      font.pixelSize: Style.font.body
+    }
+
     // ---------------------------------------- logged out
     Column {
       width: parent.width
       spacing: Style.spacing.lg
-      visible: svc && svc.installed && !root.account.loggedIn
+      visible: svc && svc.installed && !root.account.loggedIn && !root.account.unknown
 
       PanelSectionHeader { text: "LOG IN"; foreground: p.fg; fontFamily: p.font }
+      // Revoked: removed from the account elsewhere. The daemon still knows
+      // the number, so logging back in is one press.
+      Text {
+        width: parent.width
+        visible: root.account.revoked === true
+        wrapMode: Text.Wrap
+        text: "This device was removed from your Mullvad account, so it cannot connect. Log in again to add it back."
+        color: p.urgent
+        font.family: p.font
+        font.pixelSize: Style.font.body
+      }
+      Button {
+        visible: root.account.revoked === true && !!root.account.number
+        text: "Log in again"
+        iconText: "\uf090"
+        bordered: true
+        active: true
+        foreground: p.fg; fontFamily: p.font
+        tooltipText: p.privacy ? "" : "As " + Model.maskAccount(root.account.number)
+        onClicked: svc.login(root.account.number)
+      }
       Text {
         width: parent.width
         wrapMode: Text.Wrap

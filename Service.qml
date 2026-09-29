@@ -33,7 +33,8 @@ Item {
   property int overrideCount: 0
   // Last location Mullvad saw you at while the tunnel was down. Memory only.
   property var home: null
-  property var account: ({ loggedIn: false })
+  // Unknown until a read succeeds (the daemon can be down when the shell starts).
+  property var account: ({ loggedIn: false, unknown: true })
   property var devices: []
   property var version: ({})
   property var splitProcesses: []
@@ -217,8 +218,12 @@ Item {
 
   function refreshAccount() {
     run(["account", "get", "-v"], function(ok, out) {
-      root.account = Model.nextAccount(root.account, ok, out)
+      var was = root.account
+      root.account = Model.nextAccount(was, ok, out)
       root.checkExpiry()
+      // The daemon reports a revoked device as "no matching relay"; say what happened.
+      if (root.account.revoked && !was.revoked && root.notifyMode !== "Off")
+        root.notify("critical", "Mullvad: this device was logged out", "It was removed from your account. Log in again on the orb's Account tab.")
     })
   }
   function refreshDevices() {
@@ -241,7 +246,8 @@ Item {
       namesProc.running = true
     })
   }
-  // Everything the panel shows beyond live status; called when it opens.
+  // Everything the panel shows beyond live status; called when it opens and
+  // when the daemon comes up (reads made while it was down all failed).
   function refreshAll() {
     refreshStatus()
     settingsFile.reload()
@@ -252,6 +258,9 @@ Item {
     refreshSplit()
   }
 
+  // Deferred: daemonUp flips inside statusProc's exit handler.
+  onDaemonUpChanged: if (daemonUp) Qt.callLater(refreshAll)
+
   // ------------------------------------------------------------ state
 
   function applyStatus(text) {
@@ -260,6 +269,8 @@ Item {
     var prev = tunnel.state
     tunnel = Model.tunnelView(raw)
     daemonUp = true
+    // A revoked device shows up as a tunnel error; re-read the account to tell.
+    if (tunnel.state === "error" && prev !== "error") refreshAccount()
     var loc = tunnel.location
     if (tunnel.state === "disconnected" && loc && !loc.mullvadExit && loc.lat !== null)
       home = { lat: loc.lat, lon: loc.lon, city: loc.city, country: loc.country }
@@ -354,7 +365,6 @@ Item {
       }
       root.refreshStatus()
       listener.running = true
-      root.refreshAccount()
     }
   }
 
