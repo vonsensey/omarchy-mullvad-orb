@@ -37,6 +37,14 @@ else
   echo "secrets: none passed as command arguments"
 fi
 
+# A QML int property turns NaN into 0; an unknown expiry then read as
+# "expires today" and fired a false warning.
+if grep -nE 'property int [^:]+:.*NaN' *.qml; then
+  echo "FAIL: an int property can receive NaN (it becomes 0)"; fail=1
+else
+  echo "qml: no int property receives NaN"
+fi
+
 jq -e 'length > 200 and all(.[]; (.r | length) > 0)' assets/countries.json >/dev/null \
   && echo "assets: countries.json ok" || { echo "FAIL: assets/countries.json"; fail=1; }
 

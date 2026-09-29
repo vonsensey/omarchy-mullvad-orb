@@ -51,7 +51,8 @@ Item {
   readonly property string notifyMode: String(setting("notifications", "Drops only"))
   readonly property int expiryWarnDays: Number(setting("expiryWarningDays", 7))
   readonly property bool privacy: String(setting("privacyMode", "Off")) === "On"
-  readonly property int daysLeft: account.loggedIn ? Model.daysLeft(account.expiry) : NaN
+  // real, not int: an int turns NaN (expiry unknown) into 0 = "expires today".
+  readonly property real daysLeft: account.loggedIn ? Model.daysLeft(account.expiry) : NaN
   readonly property bool expiringSoon: isFinite(daysLeft) && expiryWarnDays > 0 && daysLeft <= expiryWarnDays
 
   // ------------------------------------------------------------ commands
