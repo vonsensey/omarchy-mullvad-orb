@@ -247,6 +247,7 @@ Item {
           }
 
           Text {
+            textFormat: Text.PlainText
             text: "MULLVAD ORB"
             color: root.fg
             font.family: root.font
@@ -282,6 +283,7 @@ Item {
                 }
               }
               Text {
+                textFormat: Text.PlainText
                 text: root.stateTitle
                 color: root.stateColor
                 font.family: root.font
@@ -300,6 +302,7 @@ Item {
           spacing: Style.spacing.sm
 
           Text {
+            textFormat: Text.PlainText
             anchors.verticalCenter: parent.verticalCenter
             visible: root.svc && root.svc.account.loggedIn && isFinite(root.svc.daysLeft) && (!root.privacy || root.svc.expiringSoon)
             text: root.svc && isFinite(root.svc.daysLeft) ? root.svc.daysLeft + " days left" : ""
@@ -384,6 +387,7 @@ Item {
 
         // Where the globe is pointing, bottom-left.
         Text {
+          textFormat: Text.PlainText
           anchors { left: parent.left; bottom: parent.bottom; margins: Style.spacing.panelPadding }
           text: {
             if (!root.selCountry) return "Drag to spin · scroll to zoom · click a dot to pick · double-click to connect"
@@ -413,6 +417,7 @@ Item {
         }
 
         Text {
+          textFormat: Text.PlainText
           anchors { right: parent.right; top: parent.top; margins: Style.spacing.panelPadding }
           text: root.world.countries.length + " countries · " + root.cityCount + " cities · " + root.relayCount + " servers"
           color: root.dim
@@ -472,6 +477,7 @@ Item {
           border.color: Util.alpha(isError ? root.urgent : root.fg, 0.35)
           border.width: 1
           Text {
+            textFormat: Text.PlainText
             id: toastText
             anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; margins: Style.spacing.lg }
             text: toast.message

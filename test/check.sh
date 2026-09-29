@@ -45,6 +45,15 @@ else
   echo "qml: no int property receives NaN"
 fi
 
+# Daemon, relay and CLI strings reach Text items, and Qt's default AutoText
+# would render markup in them (links, remote images). Every Text is plain.
+plain_ok=1
+for f in *.qml; do
+  t=$(grep -cE '\bText \{' "$f"); n=$(grep -c 'textFormat: Text.PlainText' "$f")
+  [[ $t -eq $n ]] || { echo "FAIL: $f has $t Text items but $n with textFormat: Text.PlainText"; plain_ok=0; fail=1; }
+done
+[[ $plain_ok -eq 1 ]] && echo "qml: every Text is plain text"
+
 jq -e 'length > 200 and all(.[]; (.r | length) > 0)' assets/countries.json >/dev/null \
   && echo "assets: countries.json ok" || { echo "FAIL: assets/countries.json"; fail=1; }
 

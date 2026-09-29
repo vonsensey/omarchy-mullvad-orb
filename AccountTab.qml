@@ -37,6 +37,7 @@ Flickable {
         width: parent.width
         height: Math.max(numberText.implicitHeight, numberActions.height)
         Text {
+          textFormat: Text.PlainText
           id: numberText
           anchors.left: parent.left
           anchors.verticalCenter: parent.verticalCenter
@@ -63,6 +64,7 @@ Flickable {
       }
 
       Text {
+        textFormat: Text.PlainText
         width: parent.width
         wrapMode: Text.Wrap
         text: {
@@ -76,6 +78,7 @@ Flickable {
         font.pixelSize: Style.font.body
       }
       Text {
+        textFormat: Text.PlainText
         text: "This device: " + (root.account.deviceName || "-")
         color: p.dim
         font.family: p.font
@@ -105,6 +108,7 @@ Flickable {
       PanelSeparator { width: parent.width; foreground: p.fg }
       PanelSectionHeader { text: "VOUCHERS"; foreground: p.fg; fontFamily: p.font }
       Text {
+        textFormat: Text.PlainText
         width: parent.width
         wrapMode: Text.Wrap
         text: "Redeem vouchers on your mullvad.net account page. The plugin does not redeem them itself: the mullvad CLI only takes a voucher as a command-line argument, which other programs on this computer can read."
@@ -135,12 +139,14 @@ Flickable {
             anchors.verticalCenter: parent.verticalCenter
             spacing: 2
             Text {
+              textFormat: Text.PlainText
               text: modelData.name + (deviceRow.current ? "  ·  this device" : "")
               color: deviceRow.current ? p.accent : p.fg
               font.family: p.font
               font.pixelSize: Style.font.body
             }
             Text {
+              textFormat: Text.PlainText
               text: "Added " + String(modelData.created).slice(0, 10)
               color: p.dim
               font.family: p.font
@@ -163,6 +169,7 @@ Flickable {
 
     // ---------------------------------------- not read yet
     Text {
+      textFormat: Text.PlainText
       width: parent.width
       visible: svc && svc.installed && root.account.unknown === true
       wrapMode: Text.Wrap
@@ -182,6 +189,7 @@ Flickable {
       // Revoked: removed from the account elsewhere. The daemon still knows
       // the number, so logging back in is one press.
       Text {
+        textFormat: Text.PlainText
         width: parent.width
         visible: root.account.revoked === true
         wrapMode: Text.Wrap
@@ -201,6 +209,7 @@ Flickable {
         onClicked: svc.login(root.account.number)
       }
       Text {
+        textFormat: Text.PlainText
         width: parent.width
         wrapMode: Text.Wrap
         text: "Enter your 16-digit Mullvad account number. It is sent to the Mullvad daemon only, never written to disk by this plugin."

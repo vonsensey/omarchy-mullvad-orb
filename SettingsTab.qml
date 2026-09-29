@@ -99,6 +99,7 @@ Flickable {
     PanelSeparator { width: parent.width; foreground: p.fg }
     PanelSectionHeader { text: "DNS CONTENT BLOCKERS"; foreground: p.fg; fontFamily: p.font }
     Text {
+      textFormat: Text.PlainText
       width: parent.width
       wrapMode: Text.Wrap
       color: p.dim
@@ -120,6 +121,7 @@ Flickable {
           width: (body.width - Style.spacing.lg) / 2
           height: sw.height
           Text {
+            textFormat: Text.PlainText
             anchors.left: parent.left
             anchors.right: sw.left
             anchors.verticalCenter: parent.verticalCenter
@@ -180,7 +182,7 @@ Flickable {
     // ---------------------------------------- anti-censorship
     PanelSeparator { width: parent.width; foreground: p.fg }
     PanelSectionHeader { text: "ANTI-CENSORSHIP"; foreground: p.fg; fontFamily: p.font }
-    Text { width: parent.width; wrapMode: Text.Wrap; color: p.dim; font.family: p.font; font.pixelSize: Style.font.caption; text: "Disguise WireGuard traffic when a network blocks or throttles VPNs." }
+    Text { textFormat: Text.PlainText; width: parent.width; wrapMode: Text.Wrap; color: p.dim; font.family: p.font; font.pixelSize: Style.font.caption; text: "Disguise WireGuard traffic when a network blocks or throttles VPNs." }
     Dropdown {
       width: parent.width
       label: "Method"
@@ -223,6 +225,7 @@ Flickable {
       }
     }
     Text {
+      textFormat: Text.PlainText
       width: parent.width
       wrapMode: Text.Wrap
       color: p.dim

@@ -303,8 +303,12 @@ Item {
   // The mole ships as a PNG in the plugin: an icon-theme name would render
   // as a missing-icon placeholder on themes that lack it.
   readonly property string iconPath: Qt.resolvedUrl("assets/mole.png").toString().replace(/^file:\/\//, "")
+  // The body is markup to the notification server (Omarchy renders it as
+  // StyledText) and can carry relay or daemon strings, so escape it. The
+  // summary is plain text by spec.
   function notify(urgency, title, body) {
-    Quickshell.execDetached(["notify-send", "-a", "Mullvad Orb", "-u", urgency, "-i", iconPath, title, body])
+    var plain = String(body).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    Quickshell.execDetached(["notify-send", "-a", "Mullvad Orb", "-u", urgency, "-i", iconPath, title, plain])
   }
 
   property string _expiryNotified: ""

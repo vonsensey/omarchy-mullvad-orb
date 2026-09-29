@@ -87,6 +87,7 @@ Flickable {
         spacing: Style.spacing.md
 
         Text {
+          textFormat: Text.PlainText
           width: parent.width
           text: {
             if (root.live && root.exitCity) return root.exitCity.name + ", " + root.exitCity.countryName
@@ -105,6 +106,7 @@ Flickable {
         }
 
         Text {
+          textFormat: Text.PlainText
           width: parent.width
           visible: text !== ""
           text: {
@@ -118,6 +120,7 @@ Flickable {
         }
 
         Text {
+          textFormat: Text.PlainText
           width: parent.width
           visible: text !== ""
           text: {
@@ -146,6 +149,7 @@ Flickable {
               radius: height / 2
               color: Util.alpha(p.accent, 0.14)
               Text {
+                textFormat: Text.PlainText
                 id: chip
                 anchors.centerIn: parent
                 text: modelData
@@ -244,6 +248,7 @@ Flickable {
         onChanged: function(v) { p.selectHost(p.selCountry, p.selCity, v) }
       }
       Text {
+        textFormat: Text.PlainText
         width: parent.width
         visible: root.filterSummary !== ""
         text: "Filtered: " + root.filterSummary + ". Change in Settings."
@@ -296,6 +301,7 @@ Flickable {
         onChanged: function(v) { p.entryCity = v === "any" ? "" : v }
       }
       Text {
+        textFormat: Text.PlainText
         width: parent.width
         visible: prefs.multihop && prefs.daita && !prefs.daitaDirectOnly
         wrapMode: Text.Wrap
@@ -334,6 +340,7 @@ Flickable {
         }
       }
       Text {
+        textFormat: Text.PlainText
         width: parent.width
         text: "Manage lists in Advanced."
         color: p.dim

@@ -27,7 +27,7 @@ Flickable {
 
     // ---------------------------------------- tunnel
     PanelSectionHeader { text: "TUNNEL"; foreground: p.fg; fontFamily: p.font }
-    Text { text: "IP version"; color: p.dim; font.family: p.font; font.pixelSize: Style.font.caption; font.bold: true }
+    Text { textFormat: Text.PlainText; text: "IP version"; color: p.dim; font.family: p.font; font.pixelSize: Style.font.caption; font.bold: true }
     ButtonGroup {
       options: [{ value: "any", label: "Automatic" }, { value: "v4", label: "IPv4" }, { value: "v6", label: "IPv6" }]
       value: prefs.ipVersion
@@ -82,6 +82,7 @@ Flickable {
     PanelSeparator { width: parent.width; foreground: p.fg }
     PanelSectionHeader { text: "CUSTOM LISTS"; foreground: p.fg; fontFamily: p.font }
     Text {
+      textFormat: Text.PlainText
       width: parent.width
       wrapMode: Text.Wrap
       text: "Group locations and connect to the best one in the group. \"Add\" uses the location picked on the globe."
@@ -107,6 +108,7 @@ Flickable {
             width: parent.width
             height: listActions.height
             Text {
+              textFormat: Text.PlainText
               anchors.left: parent.left
               anchors.right: listActions.left
               anchors.verticalCenter: parent.verticalCenter
@@ -158,10 +160,12 @@ Flickable {
                   anchors.centerIn: parent
                   spacing: Style.spacing.sm
                   Text {
+                    textFormat: Text.PlainText
                     text: Model.describeLocation(p.world, loc)
                     color: p.fg; font.family: p.font; font.pixelSize: Style.font.caption
                   }
                   Text {
+                    textFormat: Text.PlainText
                     text: ""
                     color: p.dim; font.family: p.font; font.pixelSize: Style.font.caption
                     MouseArea {
@@ -175,6 +179,7 @@ Flickable {
               }
             }
             Text {
+              textFormat: Text.PlainText
               visible: modelData.locations.length === 0
               text: "Empty - pick a location and press +"
               color: p.dim; font.family: p.font; font.pixelSize: Style.font.caption
@@ -212,6 +217,7 @@ Flickable {
     PanelSeparator { width: parent.width; foreground: p.fg }
     PanelSectionHeader { text: "SPLIT TUNNELING"; foreground: p.fg; fontFamily: p.font }
     Text {
+      textFormat: Text.PlainText
       width: parent.width
       wrapMode: Text.Wrap
       text: "Apps launched here (and everything they start) bypass the VPN. Handy for local games, banking apps or LAN tools."
@@ -243,6 +249,7 @@ Flickable {
         width: body.width
         height: Style.space(26)
         Text {
+          textFormat: Text.PlainText
           anchors.verticalCenter: parent.verticalCenter
           text: modelData.name + "  ·  PID " + modelData.pid
           color: p.fg; font.family: p.font; font.pixelSize: Style.font.body
@@ -261,6 +268,7 @@ Flickable {
     Row {
       spacing: Style.spacing.md
       Text {
+        textFormat: Text.PlainText
         anchors.verticalCenter: parent.verticalCenter
         text: svc && svc.splitProcesses.length ? svc.splitProcesses.length + " excluded" : "No excluded apps running"
         color: p.dim; font.family: p.font; font.pixelSize: Style.font.caption
@@ -278,6 +286,7 @@ Flickable {
     PanelSeparator { width: parent.width; foreground: p.fg }
     PanelSectionHeader { text: "API ACCESS"; foreground: p.fg; fontFamily: p.font }
     Text {
+      textFormat: Text.PlainText
       width: parent.width
       wrapMode: Text.Wrap
       text: "How the app reaches Mullvad's API (login, server list, keys) when direct access is blocked. In use: " + (svc && svc.apiCurrent ? svc.apiCurrent : "-")
@@ -290,6 +299,7 @@ Flickable {
         width: body.width
         height: Style.space(30)
         Text {
+          textFormat: Text.PlainText
           anchors.left: parent.left
           anchors.right: apiRow.left
           anchors.verticalCenter: parent.verticalCenter
@@ -318,6 +328,7 @@ Flickable {
     PanelSeparator { width: parent.width; foreground: p.fg }
     PanelSectionHeader { text: "SERVER IP OVERRIDES"; foreground: p.fg; fontFamily: p.font }
     Text {
+      textFormat: Text.PlainText
       width: parent.width
       wrapMode: Text.Wrap
       text: "Where Mullvad's server IPs are blocked, Mullvad support can give you a JSON patch of working IPs. " + (svc ? svc.overrideCount : 0) + " override(s) active."
@@ -359,6 +370,7 @@ Flickable {
     PanelSeparator { width: parent.width; foreground: p.fg }
     PanelSectionHeader { text: "APP"; foreground: p.fg; fontFamily: p.font }
     Text {
+      textFormat: Text.PlainText
       width: parent.width
       wrapMode: Text.Wrap
       text: {

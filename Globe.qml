@@ -668,6 +668,7 @@ Item {
       anchors.centerIn: parent
       spacing: 2
       Text {
+        textFormat: Text.PlainText
         text: !tip.h ? "" : (tip.h.kind === "server" ? tip.h.relay.hostname : tip.h.city.name + ", " + tip.h.city.countryName)
         color: root.textColor
         font.family: root.fontFamily
@@ -675,6 +676,7 @@ Item {
         font.bold: true
       }
       Text {
+        textFormat: Text.PlainText
         text: {
           var h = tip.h
           if (!h) return ""
