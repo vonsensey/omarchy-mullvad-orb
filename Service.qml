@@ -217,12 +217,15 @@ Item {
 
   function refreshAccount() {
     run(["account", "get", "-v"], function(ok, out) {
-      root.account = ok ? Model.parseAccount(out) : { loggedIn: false }
+      root.account = Model.nextAccount(root.account, ok, out)
       root.checkExpiry()
     })
   }
   function refreshDevices() {
-    run(["account", "list-devices", "-v"], function(ok, out) { root.devices = ok ? Model.parseDevices(out) : [] })
+    // Same as the account: a failed read keeps the list unless we logged out.
+    run(["account", "list-devices", "-v"], function(ok, out) {
+      root.devices = ok ? Model.parseDevices(out) : root.account.loggedIn ? root.devices : []
+    })
   }
   function refreshVersion() {
     run(["version"], function(ok, out) { if (ok) root.version = Model.parseVersion(out) })

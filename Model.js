@@ -381,6 +381,15 @@ function parseAccount(text) {
   }
 }
 
+// Account state after `mullvad account get -v` exits. Only a successful read
+// can log out or change the expiry: a failed one (daemon down, API
+// unreachable) keeps what we knew, though a printed number still proves we
+// are logged in (the CLI prints it before fetching the expiry).
+function nextAccount(prev, ok, text) {
+  var next = parseAccount(text)
+  return ok || (next.loggedIn && next.number !== prev.number) ? next : prev
+}
+
 // `mullvad account list-devices -v` -> [{name, id, created}]
 function parseDevices(text) {
   var out = []

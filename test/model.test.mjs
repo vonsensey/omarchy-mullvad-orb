@@ -192,6 +192,21 @@ test("CLI text parsers (synthetic account data)", () => {
   assert.equal(M.groupAccount("1234567890123456"), "1234 5678 9012 3456")
 })
 
+test("a failed account read is not a logout", () => {
+  const known = M.parseAccount("Mullvad account:    1234567890123456\nExpires at:         2027-05-01 07:03:52 +02:00\n")
+  const loggedOut = { loggedIn: false }
+  // Daemon down: exit != 0, no output.
+  assert.equal(M.nextAccount(known, false, ""), known)
+  // API unreachable: the number prints, then the expiry fetch fails.
+  const partial = "Mullvad account:    1234567890123456\n"
+  assert.equal(M.nextAccount(known, false, partial), known)
+  const fresh = M.nextAccount(loggedOut, false, partial)
+  assert.equal(fresh.loggedIn, true); assert.equal(fresh.expiry, "")
+  // Successful reads are authoritative.
+  assert.equal(M.nextAccount(known, true, "Not logged in on any account\n").loggedIn, false)
+  assert.equal(M.nextAccount(loggedOut, true, "Mullvad account:    1234567890123456\nExpires at:         2027-05-01 07:03:52 +02:00\n").expiry, "2027-05-01 07:03:52 +02:00")
+})
+
 test("daysLeft handles offsets and garbage", () => {
   const now = Date.parse("2027-04-21T05:03:52Z")
   assert.equal(M.daysLeft("2027-05-01 07:03:52 +02:00", now), 10)
